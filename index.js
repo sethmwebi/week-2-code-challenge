@@ -34,12 +34,14 @@ const markPurchased = (item) => {
 };
 
 const addItem = (item) => {
-  const items = JSON.parse(localStorage.getItem("items")) || [];
-  items.unshift(item);
-  localStorage.setItem("items", JSON.stringify(items));
-  addItemInput.value = "";
-  initialItems(items);
-  window.location.reload();
+  if (item) {
+    const items = JSON.parse(localStorage.getItem("items")) || [];
+    items.unshift(item);
+    localStorage.setItem("items", JSON.stringify(items));
+    addItemInput.value = "";
+    initialItems(items);
+    window.location.reload();
+  }
 };
 
 const clearList = () => {
