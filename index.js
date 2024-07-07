@@ -5,13 +5,14 @@ const listContainer = document.getElementsByClassName("list-container")[0];
 const addItemInput = document.getElementById("item");
 const addItemButton = document.querySelector(".add-item-button");
 
+// const GLOBAL_ITEM = "";
 // loop through the initial items
 const initialItems = (items) => {
   listContainer.innerHTML = "";
   items.forEach((item, i) => {
     const listItem = document.createElement("li");
     listItem.classList.add("shopping-list-item");
-    listItem.innerHTML = `${item} <button onclick="markPurchased('${item}')" class="${markPurchased(item) === item ? "line-through" : ""} mark-purchased-button">mark purchased</button>`;
+    listItem.innerHTML = `<span class='shopping-list-item-${i}'>${item}</span>  <div class="purchased-container"><button onclick="markPurchased('shopping-list-item-${i}')" class="mark-purchased-button">mark purchased</button> <span onclick="removeParent()" class="times">&times;</span></div>`;
     listContainer.appendChild(listItem);
   });
 
@@ -24,10 +25,13 @@ const initialItems = (items) => {
   }
 };
 
-// mark purchased
-function markPurchased(item) {
-  return shoppingList.find((shoppingItem) => shoppingItem === item);
-}
+const removeParent = () => {
+  document.getElementsByClassName("times")[0].parentNode.parentNode.remove();
+};
+const markPurchased = (item) => {
+  document.getElementsByClassName(item)[0].style.textDecoration =
+    "line-through";
+};
 
 const addItem = (item) => {
   const items = JSON.parse(localStorage.getItem("items")) || [];
@@ -40,8 +44,7 @@ const addItem = (item) => {
 
 const clearList = () => {
   localStorage.clear();
-  initialItems(shoppingList);
-  window.location.reload();
+  document.getElementsByClassName("clear-button")[0].parentNode.remove();
 };
 
 addItemButton.addEventListener("click", () => {

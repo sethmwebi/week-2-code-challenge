@@ -103,3 +103,18 @@ ul.list-container li {
 .line-through {
   text-decoration: line-through;
 }
+
+.list-item-span {
+  text-decoration: line-through;
+}
+
+.purchased-container {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.times {
+  font-size: 32px;
+  cursor: pointer;
+}
