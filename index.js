@@ -12,7 +12,7 @@ const initialItems = (items) => {
   items.forEach((item, i) => {
     const listItem = document.createElement("li");
     listItem.classList.add("shopping-list-item");
-    listItem.innerHTML = `<span class='shopping-list-item-${i}'>${item}</span>  <div class="purchased-container"><button onclick="markPurchased('shopping-list-item-${i}')" class="mark-purchased-button">mark purchased</button> <span onclick="removeParent()" class="times">&times;</span></div>`;
+    listItem.innerHTML = `<span class='shopping-list-item-${i}'>${item}</span>  <div class="purchased-container"><button onclick="markPurchased('shopping-list-item-${i}')" class="mark-purchased-button">mark purchased</button> <span onclick="removeParent('${item}')" class="times">&times;</span></div>`;
     listContainer.appendChild(listItem);
   });
 
@@ -25,9 +25,16 @@ const initialItems = (items) => {
   }
 };
 
-const removeParent = () => {
+const removeParent = (item) => {
+  const items = JSON.parse(localStorage.getItem("items")) || [];
+  const updatedItems = items.filter((i) => i !== item);
+  localStorage.setItem("items", JSON.stringify(updatedItems));
   document.getElementsByClassName("times")[0].parentNode.parentNode.remove();
+  if (!localStorage.getItem("items"))
+    document.getElementsByClassName("clear-button")[0].remove();
+  window.location.reload();
 };
+
 const markPurchased = (item) => {
   document.getElementsByClassName(item)[0].style.textDecoration =
     "line-through";
